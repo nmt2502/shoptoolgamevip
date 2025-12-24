@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>SHOPTOOLGAMEVIP | Hệ Thống Tool</title>
+
+<!-- 🔒 CHỐNG ZOOM + CHỐNG NHẢY -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+
+/* 🔒 KHÓA BODY */
+html, body{
+    height:100%;
+    width:100%;
+    position:fixed;
+    overflow:hidden;
+}
+
+body{
+    background:#05070f;
+    color:#fff;
+}
+
+/* ================= HIỆU ỨNG RƠI (NỀN) ================= */
+.fall{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    overflow:hidden;
+}
+.fall span{
+    position:absolute;
+    width:2px;
+    height:60px;
+    background:linear-gradient(transparent,#00f7ff);
+    animation:fall linear infinite;
+    opacity:.6;
+}
+@keyframes fall{
+    0%{transform:translateY(-100px)}
+    100%{transform:translateY(110vh)}
+}
+
+/* ================= CONTAINER CỐ ĐỊNH ================= */
+.container{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:5;
+}
+
+/* ================= CARD ================= */
+.card{
+    width:380px;
+    padding:24px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    box-shadow:0 0 35px rgba(0,255,255,.25);
+    animation:float 6s ease-in-out infinite;
+    position:relative;
+    z-index:10;
+    overflow:hidden;
+}
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-8px)}
+}
+
+/* ================= BRAND ================= */
+.brand{text-align:center;margin-bottom:12px}
+.brand h1{font-size:22px;color:#00f7ff}
+.brand p{font-size:13px;opacity:.8}
+
+/* ================= TAB ================= */
+.tab-switch{
+    display:flex;
+    gap:8px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(8px);
+    padding:6px;
+    border-radius:14px;
+    margin-bottom:16px;
+}
+.tab-switch button{
+    flex:1;
+    padding:9px 0;
+    border:none;
+    border-radius:12px;
+    background:transparent;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+.tab-switch button.active{
+    background:linear-gradient(90deg,#00f7ff,#0066ff);
+    color:#000;
+    box-shadow:0 0 15px #00f7ff;
+}
+
+/* ================= FORM ================= */
+form h2{text-align:center;margin-bottom:6px}
+form p{text-align:center;font-size:13px;opacity:.8;margin-bottom:16px}
+
+.input-group{margin-bottom:12px}
+.input-group label{font-size:13px;opacity:.85}
+.input-group input{
+    width:100%;
+    padding:11px;
+    border-radius:12px;
+    border:none;
+    outline:none;
+    background:rgba(255,255,255,.18);
+    color:#fff;
+    margin-top:4px;
+    font-size:16px; /* 🚫 CHỐNG ZOOM IOS */
+}
+.input-group input::placeholder{color:#ddd}
+
+.glass-box{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:9px;
+    border-radius:12px;
+    background:rgba(255,255,255,.12);
+    font-size:13px;
+    margin-bottom:14px;
+}
+.glass-box input{accent-color:#00f7ff}
+
+/* ================= BUTTON ================= */
+button.submit{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(90deg,#00f7ff,#0066ff);
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+}
+button.submit:hover{box-shadow:0 0 20px #00f7ff}
+
+/* ================= ẨN FORM ================= */
+#registerForm{display:none}
+
+/* ================= TOAST ================= */
+.toast{
+    position:fixed;
+    top:30px;
+    right:-400px;
+    padding:15px 25px;
+    border-radius:12px;
+    background:rgba(0,0,0,.85);
+    backdrop-filter:blur(10px);
+    box-shadow:0 0 20px rgba(0,255,255,.4);
+    transition:.5s;
+    z-index:1000;
+}
+.toast.show{right:30px}
+.toast.success{border-left:4px solid #00ff99}
+
+/* ================= MOBILE ================= */
+@media(max-width:480px){
+    .card{width:92%}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HIỆU ỨNG RƠI -->
+<div class="fall">
+<script>
+for(let i=0;i<80;i++){
+document.write(`<span style="left:${Math.random()*100}%;
+animation-duration:${2+Math.random()*5}s;
+animation-delay:${Math.random()*5}s"></span>`)
+}
+</script>
+</div>
+
+<div class="container">
+<div class="card">
+
+<div class="brand">
+    <h1>SHOPTOOLGAMEVIP</h1>
+    <p>Trí tuệ nhân tạo thế hệ tiếp theo</p>
+</div>
+
+<div class="tab-switch">
+    <button id="btnLogin" class="active" onclick="showLogin()">Đăng Nhập</button>
+    <button id="btnRegister" onclick="showRegister()">Đăng Ký</button>
+</div>
+
+<form id="loginForm" onsubmit="login(event)">
+<h2>Chào mừng trở lại</h2>
+<p>Đăng nhập để truy cập SHOPTOOLGAMEVIP</p>
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" placeholder="example@gmail.com" required>
+</div>
+
+<div class="input-group">
+<label>Mật khẩu</label>
+<input type="password" placeholder="••••••" required>
+</div>
+
+<div class="glass-box">
+<input type="checkbox">
+<span>Ghi nhớ đăng nhập</span>
+</div>
+
+<button class="submit">Truy Cập Hệ Thống</button>
+</form>
+
+<form id="registerForm" onsubmit="register(event)">
+<h2>Tạo tài khoản mới</h2>
+<p>Tham gia cộng đồng SHOPTOOLGAMEVIP</p>
+
+<div class="input-group"><label>Tên Tài Khoản</label><input type="taikhoan" required></div>
+<div class="input-group"><label>Email</label><input type="email" required></div>
+<div class="input-group"><label>Mật khẩu</label><input type="password" required></div>
+<div class="input-group"><label>Xác nhận mật khẩu</label><input type="password" required></div>
+
+<div class="glass-box">
+<input type="checkbox" required>
+<span>Tôi đồng ý điều khoản sử dụng</span>
+</div>
+
+<button class="submit">Đăng Ký Ngay</button>
+</form>
+
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= TAB ================= */
+function showLogin(){
+    loginForm.style.display='block';
+    registerForm.style.display='none';
+    btnLogin.classList.add('active');
+    btnRegister.classList.remove('active');
+}
+function showRegister(){
+    loginForm.style.display='none';
+    registerForm.style.display='block';
+    btnRegister.classList.add('active');
+    btnLogin.classList.remove('active');
+}
+
+/* ================= TOAST ================= */
+function toastMsg(m){
+    toast.innerText = m;
+    toast.className = 'toast show success';
+    setTimeout(()=>toast.className='toast',3000);
+}
+
+/* ================= LOGIN ================= */
+async function login(e){
+    e.preventDefault();
+
+    const email = loginForm.querySelector('input[type="email"]').value;
+    const password = loginForm.querySelector('input[type="password"]').value;
+
+    const res = await fetch('/api/login',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if(data.success){
+        toastMsg('Đăng nhập thành công ✔');
+
+        setTimeout(()=>{
+            window.location.href = 'nhapkey.html';
+        },1200);
+
+    }else{
+        toastMsg(data.msg || 'Tài khoản không tồn tại');
+    }
+}
+
+/* ================= REGISTER ================= */
+async function register(e){
+    e.preventDefault();
+
+    const inputs = registerForm.querySelectorAll('input');
+    const ten_tai_khoan = inputs[0].value.trim();
+    const email = inputs[1].value.trim();
+    const password = inputs[2].value.trim();
+    const confirmPassword = inputs[3].value.trim();
+
+    // Kiểm tra đầy đủ thông tin
+    if(!ten_tai_khoan || !email || !password || !confirmPassword){
+        toastMsg('Vui lòng điền đầy đủ thông tin!');
+        return;
+    }
+
+    // Kiểm tra mật khẩu xác nhận
+    if(password !== confirmPassword){
+        toastMsg('Mật khẩu xác nhận không khớp!');
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/register',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({ ten_tai_khoan, email, password })
+        });
+
+        const data = await res.json();
+
+        if(data.success){
+            toastMsg('Đăng ký thành công ✔');
+
+            setTimeout(()=>{
+                showLogin();   // 👉 TỰ CHUYỂN VỀ ĐĂNG NHẬP
+            },1200);
+
+        } else {
+            toastMsg(data.msg || 'Lỗi đăng ký');
+        }
+
+    } catch(err){
+        console.error(err);
+        toastMsg('Lỗi server, vui lòng thử lại!');
+    }
+}
+
+/* ================= 🔒 FIX IOS: KHÓA VIEWPORT ================= */
+document.querySelectorAll('input').forEach(i=>{
+    i.addEventListener('focus',()=>{
+        document.body.style.position='fixed';
+        document.body.style.width='100%';
+    });
+});
+</script>
+</body>
+</html>

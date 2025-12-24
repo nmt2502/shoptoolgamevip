@@ -1,0 +1,10 @@
+[
+  {
+    "ten_tai_khoan": "123456",
+    "so_du": 0,
+    "kich_hoat": false,
+    "email": "test@gmail.com",
+    "password": "111111",
+    "created_at": "2025-12-24T22:26:43.707Z"
+  }
+]
